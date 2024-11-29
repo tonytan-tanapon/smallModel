@@ -1,1 +1,5 @@
-test
+smallmodel
+
+gcloud run deploy smallmodel  --image gcr.io/smallmodel/smallmodel  --platform managed  --region us-central1  --allow-unauthenticated
+
+https://smallmodel-669868200956.us-central1.run.app

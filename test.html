@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Small Model Test</title>
+  <script>
+    async function sendRequest() {
+      // Get input text from the form
+      const inputText = document.getElementById("inputText").value;
+
+      // Display a loading message
+      const resultDiv = document.getElementById("result");
+      resultDiv.textContent = "Sending request...";
+
+      try {
+        // Send POST request to the server
+        const response = await fetch("https://smallmodel-669868200956.us-central1.run.app/predict", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ text: inputText })
+        });
+
+        // Handle server response
+        if (response.ok) {
+          const result = await response.json();
+          resultDiv.textContent = `Prediction: ${result.prediction}`;
+        } else {
+          const error = await response.json();
+          resultDiv.textContent = `Error: ${error.error || "Unknown error occurred"}`;
+        }
+      } catch (err) {
+        resultDiv.textContent = `Network error: ${err.message}`;
+      }
+    }
+  </script>
+</head>
+<body>
+  <h1>Small Model API Test</h1>
+  <form onsubmit="event.preventDefault(); sendRequest();">
+    <label for="inputText">Enter text for prediction:</label><br><br>
+    <input type="text" id="inputText" placeholder="Type your text here" required>
+    <button type="submit">Submit</button>
+  </form>
+  <br>
+  <div id="result" style="font-weight: bold;"></div>
+</body>
+</html>
